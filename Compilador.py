@@ -54,11 +54,14 @@ patronORG = re.compile(r'(\s)+(ORG)(\s)+\$\d+')
 patronFCB = re.compile(r'(\s)+(FCB|fcb)(\s)+\$\w+\d+,\$\w+\d+')
 #Para compilar la expresión regular que busvca los END	
 patronEND = re.compile(r'(\s)+(END|end|End)(\s)+\$\d+')
+#Para compilar la expresión regular que busca los comentarios	
+patronCOMMENT = re.compile(r'(\*(\s+\w+)+\s\-(\w+\s)+\w+\-)|(\*(\s+\w+)+\s+\w+\-\w+)|(\*(\s+\w+)+\s+\(\w+((\s+\w+)+)*\))|(\*(\w+\s)+)(\*\s(\w+\s)+)|((\*\s(\w+\s{1,3})+))|(\*\s(\w+\s)+)|(\*(\ \s{1,5})(\w+\s)+)|(\*(\w+\s)+)|(\*+)')
 
 numEQU = 0
 numORG = 0
 numFCB = 0
 numEND = 0
+numCOMMENT = 0
 numLineas = 0
 with open("pro.asc","r") as f:
 	list_lines = f.readlines()
@@ -85,6 +88,10 @@ with open("pro.asc","r") as f:
 			print("Numero de END: ")
 			print(numEND)
 
+		if re.search(patronCOMMENT,line):
+			numCOMMENT = numCOMMENT + 1
+			print("Num de comentarios: ")
+			print(numCOMMENT)
 fileMotorola = open("motorola.lst","w")
 print("Rango")
 print(range(numLineas))
